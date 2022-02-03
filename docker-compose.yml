@@ -1,0 +1,21 @@
+version: "3.9"
+
+
+services:
+  shell_terraform:
+    build:
+      context: .
+    image: shell_tf
+    container_name: shell_tf
+    restart: always
+    # ports:
+    #   - "5000:5000"
+    # networks:
+    #   - elfk
+    # volumes:
+    #   - .:/infra
+   
+
+networks:
+  elfk:
+    driver: bridge
