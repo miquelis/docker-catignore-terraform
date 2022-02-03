@@ -19,7 +19,7 @@ RUN /opt/tfenv/bin/tfenv use latest
 # Install catingore
 RUN mkdir -p /root/scripts 
 WORKDIR /root/scripts
-RUN bash -c "$(wget -qO - 'https://raw.githubusercontent.com/miquelis/catignore/master/install.sh')" '' -i -s linux -a amd64 
+RUN bash -c "$(wget -qO - 'https://raw.githubusercontent.com/miquelis/catignore/master/scripts/install.sh')" '' -i -s linux -a amd64 
 RUN echo 'export PATH="/opt/catignore:$PATH"' >> ~/.bashrc 
 RUN source ~/.bashrc
 WORKDIR /root
