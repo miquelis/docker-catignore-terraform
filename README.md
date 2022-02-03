@@ -1,0 +1,1 @@
+# docker-catignore-terraform
