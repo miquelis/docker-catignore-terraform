@@ -1,0 +1,33 @@
+# Name of the workflow
+name: Release
+
+on:
+  workflow_dispatch:
+
+# Automatically create a GitHub Release, with release details specified (the relevant commits)
+jobs:
+  release:
+    name: "Release"
+    runs-on: "ubuntu-latest"
+    environment: "prod"
+
+    steps:
+      - name: Check out code into the go module directory
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: "master"
+          tag_prefix: ""
+
+      - name: Create a gitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
