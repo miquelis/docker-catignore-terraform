@@ -2,14 +2,15 @@
 name: Release
 
 on:
-  workflow_dispatch:
+  schedule:
+    # Every Thursday at 1PM UTC (10AM BRL)
+    - cron: "0 13 * * 4"
 
 # Automatically create a GitHub Release, with release details specified (the relevant commits)
 jobs:
   release:
     name: "Release"
     runs-on: "ubuntu-latest"
-    environment: "prod"
 
     steps:
       - name: Check out code into the go module directory
@@ -24,6 +25,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: "master"
           tag_prefix: ""
+          default_bump: minor
 
       - name: Create a gitHub release
         uses: ncipollo/release-action@v1
