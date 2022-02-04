@@ -8,13 +8,14 @@ on:
     types:
       - completed
 
+env:
+  DOCKER_NAME: catignore-tfenv
+
 # Automatically create a GitHub Release, with release details specified (the relevant commits)
 jobs:
   release:
     name: "Container"
     runs-on: "ubuntu-latest"
-    env:
-      DOCKER_NAME: catignore-tfenv
 
     steps:
       - name: Check out code into the go module directory
@@ -46,5 +47,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_NAME:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_NAME:${{ steps.previoustag.outputs.tag }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{env.DOCKER_NAME}}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{env.DOCKER_NAME}}:${{ steps.previoustag.outputs.tag }}
