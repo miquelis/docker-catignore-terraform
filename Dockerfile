@@ -13,6 +13,8 @@ RUN git clone https://github.com/tfutils/tfenv.git /opt/tfenv
 RUN chmod -R 777 /opt/tfenv 
 RUN echo 'export PATH="/opt/tfenv/bin:$PATH"' >> /etc/profile.d/tfenv.sh
 RUN source /etc/profile.d/tfenv.sh
+RUN echo 'export PATH="/opt/tfenv/bin:$PATH"' >> ~/.bashrc 
+RUN source ~/.bashrc
 RUN /opt/tfenv/bin/tfenv install latest
 RUN /opt/tfenv/bin/tfenv use latest
 
@@ -20,6 +22,8 @@ RUN /opt/tfenv/bin/tfenv use latest
 RUN mkdir -p /root/scripts 
 WORKDIR /root/scripts
 RUN bash -c "$(wget -qO - 'https://raw.githubusercontent.com/miquelis/catignore/master/scripts/install.sh')" '' -i -s linux -a amd64 
+RUN echo 'export PATH="/opt/catignore:$PATH"' >> ~/.bashrc 
+RUN source ~/.bashrc
 WORKDIR /root
 RUN rm -rf /root/scripts
 
