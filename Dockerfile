@@ -17,7 +17,7 @@ RUN echo 'export PATH="/opt/tfenv/bin:$PATH"' >> ~/.bashrc
 RUN source ~/.bashrc
 RUN /opt/tfenv/bin/tfenv install latest
 RUN /opt/tfenv/bin/tfenv use latest
-
+RUN ln -snf /opt/tfenv/bin/ /usr/bin/tfenv
 # Install catingore
 RUN mkdir -p /root/scripts 
 WORKDIR /root/scripts
@@ -26,6 +26,7 @@ RUN echo 'export PATH="/opt/catignore:$PATH"' >> ~/.bashrc
 RUN source ~/.bashrc
 WORKDIR /root
 RUN rm -rf /root/scripts
+RUN ln -snf /opt/catignore /usr/bin/catignore
 
 RUN apt clean
 RUN rm -rf /var/lib/apt/lists/*
