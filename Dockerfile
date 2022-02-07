@@ -28,4 +28,4 @@ RUN rm -rf /root/scripts
 RUN apt clean
 RUN rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT  ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
