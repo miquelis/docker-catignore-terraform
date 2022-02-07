@@ -26,4 +26,6 @@ RUN rm -rf /root/scripts
 RUN apt clean
 RUN rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/bin/sh", "-l"]
+ENV ENV="/etc/profile"
+
+ENTRYPOINT ["/bin/sh"]
