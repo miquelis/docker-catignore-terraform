@@ -4,33 +4,32 @@ SHELL ["/bin/bash", "-c"]
 
 # Install dependencies
 ENV TZ=America/Sao_Paulo
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apt-get update
-RUN apt-get install -y wget curl unzip ca-certificates git
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+  && apt-get update \
+  && apt-get install -y wget curl unzip ca-certificates git
 
 # Install tfenv
-RUN git clone https://github.com/tfutils/tfenv.git /opt/tfenv 
-RUN chmod -R 777 /opt/tfenv 
-RUN echo 'export PATH="/opt/tfenv/bin:$PATH"' >> /etc/profile.d/tfenv.sh
-RUN source /etc/profile.d/tfenv.sh
-RUN echo 'export PATH="/opt/tfenv/bin:$PATH"' >> ~/.bashrc 
-RUN source ~/.bashrc
-RUN /opt/tfenv/bin/tfenv install latest
-RUN /opt/tfenv/bin/tfenv use latest
-RUN ln -snf /opt/tfenv/bin/ /usr/bin/tfenv
+ARG tfenv=/opt/tfenv/bin
+
+RUN git clone https://github.com/tfutils/tfenv.git /opt/tfenv \
+  && chmod -R 777 /opt/tfenv \ 
+  && $tfenv/tfenv install latest \
+  && $tfenv/tfenv use latest \
+  && ln -snf $tfenv /usr/bin/tfenv
+
 # Install catingore
 RUN mkdir -p /root/scripts 
 WORKDIR /root/scripts
 RUN bash -c "$(wget -qO - 'https://raw.githubusercontent.com/miquelis/catignore/master/scripts/install.sh')" '' -i -s linux -a amd64 
-RUN echo 'export PATH="/opt/catignore:$PATH"' >> ~/.bashrc 
-RUN source ~/.bashrc
 WORKDIR /root
-RUN rm -rf /root/scripts
-RUN ln -snf /opt/catignore /usr/bin/catignore
 
-RUN apt clean
-RUN rm -rf /var/lib/apt/lists/*
+ARG catingore=/opt/catignore
 
-ENV ENV="/etc/profile"
+RUN rm -rf /root/scripts \ 
+  && ln -snf $catingore /usr/bin/catignore \
+  && apt clean \ 
+  && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/bin/sh"]
+ENV PATH="${PATH}:${tfenv}:${catingore}"
+
+ENTRYPOINT ["/usr/bin/bash"]
