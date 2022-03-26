@@ -4,7 +4,7 @@ name: Release
 on:
   schedule:
     # Every Thursday at 1PM UTC (10AM BRL)
-    - cron: "0 13 * * 3"
+    - cron: "0 13 * 1-12 3"
   workflow_dispatch:
 
 # Automatically create a GitHub Release, with release details specified (the relevant commits)
